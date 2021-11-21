@@ -13,14 +13,6 @@
 #include <chrono>
 #include <cstring>
 
-struct ThrowMoveT{
-    ThrowMoveT(ThrowMoveT&&) noexcept(false) {}
-};
-
-static_assert(std::is_nothrow_move_constructible_v<sbo::small_vector<int, 100>>);
-static_assert(!std::is_nothrow_move_constructible_v<sbo::small_vector<ThrowMoveT, 100>>);
-
-
 TEST_CASE("test_for_crash_access_used_moved_from_trivial_copyable_type") {
     auto myVec = std::make_unique<sbo::small_vector<int, 100>>(100);
     for (unsigned i = 0; i < 50; ++i)
@@ -33,8 +25,6 @@ TEST_CASE("test_for_crash_access_used_moved_from_trivial_copyable_type") {
     for (unsigned i = 0; i < 50; ++i)
         CHECK(myVector2[i] == i);
 }
-
-static_assert(std::is_nothrow_move_constructible_v<sbo::small_vector<std::unique_ptr<int>, 100>>);
 
 TEST_CASE("test_for_crash_access_used_moved_from_move_only_type") {
     auto myVec = std::make_unique<sbo::small_vector<std::unique_ptr<int>, 100>>(50);
