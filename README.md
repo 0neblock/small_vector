@@ -12,6 +12,8 @@
 I like the simplicty of this implementation and that `sbo::small_vector` is fully move constructible/ assignable. While the small buffer is not active `sbo::small_vector` behaves identical to `std::vector` and a move is super cheap O(1). Since the small buffer memory is allocated on the stack and it is not relocatable (similar to `std::array`) an element wise move has to be performed when the small buffer is active O(N). 
 Otherwise it should basically behave identical to std::vector with the minor difference that moving might invalidate iterators to the `small_vector`.
 
+Edited for C++11
+
 ## Implementation
 This implementation was basically inspired by a quite unknown customization point called ['propagate_on_container_move_assignment'](https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer), but lets start with the basics.
 For our purposes we need a stack allocated piece of memory, which I will refer to as the small buffer. The small buffer can be used to insert elements until we reach `MaxSize`. For memory requests bigger than the small buffer, we will simply use a `std::alllocator`.
