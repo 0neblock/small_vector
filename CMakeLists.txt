@@ -39,7 +39,7 @@ FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface target:
 add_library(small_vector INTERFACE)  
-target_compile_features(small_vector INTERFACE cxx_std_17)
+target_compile_features(small_vector INTERFACE cxx_std_11)
 target_compile_options(small_vector INTERFACE "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
